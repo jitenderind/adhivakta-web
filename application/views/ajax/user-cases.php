@@ -13,7 +13,7 @@
         <span class="f-s-12">
         Diary No: ${diaryNo}
     </span>
-{{if status =="DISPOSED"}}
+{{if status.toUpperCase() =="DISPOSED"}}
 <span class="f-s-12 text-success">
         ${status}
     </span>
@@ -29,12 +29,24 @@
 <span class="f-s-12">
         ${forum}
     </span>
+
+{{if status.toUpperCase() =="PENDING"}}
+{{if checkInFuture(nextListing)}}
 <span class="badge-purple badge bigTitle">
 ${formatDate(nextListing)}
 </span>
+{{else}}
+<br>
+<span class="badge-success badge f-s-12">
+last listed on</span><br>
+<span class="bigTitle">
+${formatDateFull(nextListing)}
+</span><br>
+{{/if}}
 <span class="f-s-12">
         ${nextListingCourtNo} | Item No:  ${nextListingItemNo}
     </span>
+{{/if}}
 </td>
 <td>
 <span class="title text-primary">
@@ -54,9 +66,9 @@ ${formatDate(nextListing)}
 </tr>
 </script>
 <script type="text/javascript">
-        function loadCases(){
+        function loadCases(page){
         	$.ajax({
-                "url": '<?php echo API_URL?>user-cases/<?php echo $_SESSION['user']['userId']?>',
+                "url": '<?php echo API_URL?>user-cases/<?php echo $_SESSION['user']['userId']?>?page='+page,
                 type: "GET",
                 dataType: "json",
                 contentType: "application/json",
@@ -68,9 +80,9 @@ ${formatDate(nextListing)}
                   },
             }).done(function (response) {
             	//console.log(response);
-                var html=$('#casesTemplate').tmpl(response);
+                var html=$('#casesTemplate').tmpl(response.data);
                 $('#data-content').html(html);
             });
         }
-       loadCases();
+       loadCases(1);
 </script>

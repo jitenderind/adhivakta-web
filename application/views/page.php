@@ -75,12 +75,16 @@
 </body>
 <!--End Body-->
 <!--   Core JS Files   -->
+<script 
+	src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.autocomplete.min.js"
+	type="text/javascript"></script>
 	<script 
-	src="<?php echo base_url(); ?>assets/plugins/jquery/jquery_ui.js"
+	src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-dateformat.min.js"
 	type="text/javascript"></script>
 	<script 
 	src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.tmpl.min.js"
 	type="text/javascript"></script>
+	
 <script 
 	src="<?php echo base_url(); ?>assets/plugins/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
 <script async

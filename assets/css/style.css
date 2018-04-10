@@ -8920,3 +8920,10 @@ span.ti-cursor {
 .help{
 	font-size:12px !important;
 }
+
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; cursor:pointer;}
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; cursor:pointer;}
+.autocomplete-selected { background: #e2d3ff; cursor:pointer;}
+.autocomplete-suggestions strong { font-weight: normal; color: #5729ab; cursor:pointer;}
+.autocomplete-group { padding: 2px 5px; cursor:pointer;}
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; cursor:pointer;}

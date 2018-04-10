@@ -28,8 +28,24 @@ $(window).on("load", function () {
     
 });
 
+function checkInFuture(date){
+	if(new Date(date) >= new Date())
+	{
+		return true;
+	} else {
+		return false;
+	}
+}
+
 function formatDate(date){
-	var new_date=$.datepicker.formatDate('M dd', new Date(date));
+	var new_date=$.format.date(new Date(date), "MMM dd");
+	//$.datepicker.formatDate('M dd', new Date(date));
+	return new_date;
+}
+
+function formatDateFull(date){
+	var new_date=$.format.date(new Date(date), "MMM dd, yyyy");
+	//$.datepicker.formatDate('M dd', new Date(date));
 	return new_date;
 }
 
@@ -377,7 +393,6 @@ var apWriteCopyrights = function () {
         "use strict";
         var refresh = $("[data-box=refresh]");
         $(refresh).on("click", function () {
-            console.log($(this));
             dataLoadFromServer($(this).attr('data-url'));
             return false;
         });
