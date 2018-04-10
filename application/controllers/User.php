@@ -34,6 +34,18 @@ class User extends CI_Controller
         }
     }
 
+    public function page($page)
+    {
+        $this->load->helper('url'); // loading url helper to load assests
+        $this->load->library('session');
+        if ($this->session->userdata('user')) {
+            $this->data['pageTitle'] = DEFAULT_TITLE;
+            $this->data['page'] = $page;
+            $this->load->view('page', $this->data);
+        } else {
+            redirect(base_url() . 'login', 'refresh');
+        }
+    }
     
 
     public function login()

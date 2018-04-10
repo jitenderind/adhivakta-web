@@ -35,6 +35,7 @@
 	href="<?php echo base_url(); ?>assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css"
 	rel="stylesheet" />
 	<link href="<?php echo base_url(); ?>assets/plugins/parsley/parsley.css" rel="stylesheet"/>
+	<link href="<?php echo base_url(); ?>assets/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
 	<script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/plugins/bootstrap/js/bootstrap.bundle.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL STYLE -->
@@ -84,6 +85,15 @@
 	<script 
 	src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.tmpl.min.js"
 	type="text/javascript"></script>
+	
+	<script 
+	src="<?php echo base_url(); ?>assets/plugins/pagination/jquery.twbsPagination.min.js"
+	type="text/javascript"></script>
+	
+	<script 
+	src="<?php echo base_url(); ?>assets/plugins/sweetalert/sweetalert.min.js"
+	type="text/javascript"></script>
+	
 	
 <script 
 	src="<?php echo base_url(); ?>assets/plugins/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>

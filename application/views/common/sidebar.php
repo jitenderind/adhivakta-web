@@ -44,7 +44,7 @@
             <!--End User Section-->
 
             <ul class="nav">
-                <li id="workspace" class="nav-item active">
+                <li id="workspace" class="nav-item <?php if($page=="workspace"){echo "active";}?>">
                     <a class="nav-link loader-link" href="/workspace">
                         <i class="material-icons">dashboard</i>
                         <p>
@@ -63,7 +63,7 @@
                 </li>
 
                 <li id="display-board" class="nav-item">
-                    <a class="nav-link loader-link" href="#ap_essential">
+                    <a class="nav-link loader-link" href="/display-board">
                         <i class="material-icons">picture_in_picture</i>
                         <p>
                             Display Baord
@@ -109,7 +109,7 @@
                 </li>
 
                 <li id="archives" class="nav-item">
-                    <a class="nav-link loader-link" href="/archives">
+                    <a class="nav-link loader-link" href="/archived">
                         <i class="material-icons">archive</i>
                         <p>
                             Archived Cases

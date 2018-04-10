@@ -8927,3 +8927,23 @@ span.ti-cursor {
 .autocomplete-suggestions strong { font-weight: normal; color: #5729ab; cursor:pointer;}
 .autocomplete-group { padding: 2px 5px; cursor:pointer;}
 .autocomplete-group strong { display: block; border-bottom: 1px solid #000; cursor:pointer;}
+
+
+.navbar-forms input{
+	outline:0;
+	border:0px !important;
+}
+
+.navbar-forms .input-group{
+	padding:0px !important;
+}
+
+.navbar-forms i{
+	cursor:pointer;
+}
+
+.navbar-forms i.material-icons {
+	margin-top:6px;
+	margin-right:5px;
+	visibility:hidden;
+}

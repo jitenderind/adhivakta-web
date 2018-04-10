@@ -59,6 +59,14 @@ $route['recover-password'] = 'user/forgot_password';
 $route['reset-password'] = 'user/reset_password';
 
 $route['workspace'] = 'user/index';
+$route['causelist'] = 'user/page/causelist';
+$route['display-board'] = 'user/page/display-board';
+$route['appeal-alert'] = 'user/page/appeal-alert';
+$route['tasks'] = 'user/page/tasks';
+$route['invoice'] = 'user/page/invoice';
+$route['archived'] = 'user/page/archived';
+$route['clients'] = 'user/page/clients';
+
 
 $route['load/(:any)'] = 'page/load_page/$1';
 $route['data/(:any)'] = 'page/load_data/$1';

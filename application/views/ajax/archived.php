@@ -10,11 +10,11 @@
 				<div class="row">
 				<div class="col-lg-3"></div>
 				<div class="col-lg-6">
-<form class="navbar-forms navbar-left navbar-search-form d-none d-lg-block" id="searchFrm" action="/user-cases?key=" role="search">
+<form class="navbar-forms navbar-left navbar-search-form d-none d-lg-block" id="searchFrm" action="/user-cases?archKey=" role="search">
                                 <div class="input-group form-control">
                                     <input type="text" class="form-control" id="searchKey" placeholder="Search" data-parsley-trigger="keyup"
 														data-parsley-required-message="Please enter keyword to search cases"><i id="searchCanelBtn" class="material-icons text-danger" data-box="refresh"
-										data-effect="win8_linear" data-url="/user-cases">cancel</i>
+										data-effect="win8_linear" data-url="/user-cases?arch=1">cancel</i>
                                     <span onclick="$('#searchFrm').submit();" class="input-group-addon"><i class="icons icon-magnifier p-r-10"></i></span>
                                 </div>
                             </form>
@@ -24,17 +24,13 @@
 					<div class="ap-wrapper">
 						<div class="ap-box">
 						<h5 class="ap-header">
-								Cases
+								Archived Cases
 								
 								
 								<div class="ap-box-controls">
     <!-- <input type="submit" value="Submit"/> -->
-									<button class="btn btn-primary btn-sm" type="button"
-										onClick="pageLoadFromServer('/add-case');">
-										<i class="fa fa-plus"></i> Add Case
-									</button>
 									<i class="material-icons" data-box="refresh"
-										data-effect="win8_linear" data-url="/user-cases">refresh</i> <i
+										data-effect="win8_linear" data-url="/user-cases?arch=1">refresh</i> <i
 										class="material-icons" data-box="fullscreen">fullscreen</i>
 								</div>
 							</h5>
@@ -62,7 +58,7 @@
 <div id="data-loader"></div>
 <!--End Content-->
 <script type="text/javascript">
-dataLoadFromServer('/user-cases');
+dataLoadFromServer('/user-cases?arch=1');
 //handle search 
 $("#searchFrm").parsley().on('field:validated', function() {
     var ok = jQuery('.parsley-error').length === 0;

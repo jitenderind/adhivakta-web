@@ -23,10 +23,33 @@ $(window).on("load", function () {
     	loadPage(window.location.pathname);
     });
     // laod side bar
-    $( ".sidebar" ).load( "/sidebar" );
+    $( ".sidebar" ).load( "/sidebar", function(){
+    	 $('.loader-link').on('click', function(e) {
+    		 e.preventDefault();
+ 			$(this).parent().siblings().removeClass('active');
+ 	        $(this).parent().addClass('active');
+ 	      	loadPage($(this).attr('href'),false);
+ 	      	return false;
+ 	      });
+    });
     
     
 });
+
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+}
 
 function checkInFuture(date){
 	if(new Date(date) >= new Date())
@@ -38,7 +61,7 @@ function checkInFuture(date){
 }
 
 function formatDate(date){
-	var new_date=$.format.date(new Date(date), "MMM dd");
+	var new_date=$.format.date(new Date(date), "E, MMM dd");
 	//$.datepicker.formatDate('M dd', new Date(date));
 	return new_date;
 }
@@ -51,8 +74,8 @@ function formatDateFull(date){
 
 function loadPage(page){
 	//set URL
-	var theURL = window.location.pathname;
-    theURL.replace("/url_part_to_change/", page);
+    var urlPath = window.location.protocol +'//'+window.location.host+page
+    window.history.pushState({"html":"","pageTitle":""},"", urlPath);
 	//start refresh
 	var effect = "win8_linear";
     var container = $(".ap-box");
@@ -69,7 +92,7 @@ function loadPage(page){
         onClose : function () {
         }
     });
-	
+    
 	//start loading 
 	
 	 $.ajax({
@@ -87,20 +110,6 @@ function loadPage(page){
 			 //remove loader
              $(container).waitMe("hide");
 			 App.init();
-			 $('.loader-link').on('click', function(e) {
-				 var me = $(this);
-				    e.preventDefault();
-
-				    if ( me.data('requestRunning') ) {
-				        return;
-				    }
-
-				    me.data('requestRunning', true);
-   				$(this).parent().siblings().removeClass('active');
-   		        $(this).parent().addClass('active');
-   		      	loadPage($(this).attr('href'),false);
-   		     me.data('requestRunning', false);
-   		      });
           }
 	 });
 }
@@ -160,6 +169,7 @@ function dataLoadFromServer(page){
           }
 	 });
 }
+
 
 var apWriteCopyrights = function () {
         "use strict";
