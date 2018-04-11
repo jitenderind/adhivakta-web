@@ -25,6 +25,9 @@
 <link
 	href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap-reboot.css"
 	rel="stylesheet" />
+	<link
+	href="<?php echo base_url(); ?>assets/plugins/bootstrap3-editable/css/bootstrap-editable.css"
+	rel="stylesheet" />
 <link href="<?php echo base_url(); ?>assets/css/colors.css"
 	rel="stylesheet" id="themecolor" />
 <link href="<?php echo base_url(); ?>assets/css/style.css"
@@ -82,6 +85,7 @@
 	<script 
 	src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-dateformat.min.js"
 	type="text/javascript"></script>
+	
 	<script 
 	src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.tmpl.min.js"
 	type="text/javascript"></script>
@@ -99,6 +103,8 @@
 	src="<?php echo base_url(); ?>assets/plugins/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
 <script async
 	src="<?php echo base_url(); ?>assets/plugins/waitMe/waitMe.min.js"></script>
+	<script async
+	src="<?php echo base_url(); ?>assets/plugins/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script async
 	src="https://www.googletagmanager.com/gtag/js?id=UA-66289183-8"></script>
 <!-- BEGIN PAGE LEVEL JS -->

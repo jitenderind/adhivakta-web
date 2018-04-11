@@ -850,6 +850,21 @@ ul.nav.navbar-nav {
     background: rgba(203, 203, 210, 0.15);
 }
 
+.main-panel .content-sm.bg-gray {
+    padding: 0px 15px;
+}
+.main-panel .content-sm.bg-gray .ap-box {
+    border-radius: 4px;
+    background-color: unset !important;
+    box-shadow: unset !important;
+}
+
+.main-panel .content-sm.bg-gray .ap-full-box .ap-box {
+    border-radius: 4px;
+    background: #eaeaea !important;
+    box-shadow: unset !important;
+}
+
 .main-panel .content.bg-gray .ap-box {
     border-radius: 4px;
     background-color: unset !important;
@@ -6705,12 +6720,28 @@ div.type-post .entry-content {
 	font-wieght:600;
 }
 
+.title {
+    font-size:20px;
+	font-wieght:600;
+	display:block;
+}
+
 .table-separate .bigTitle{
 	font-size:28px;
 	font-wieght:bold;
 	display:block;
 }
 
+.bigTitle{
+	font-size:28px;
+	font-wieght:bold;
+	display:block;
+}
+
+.smTitle{
+	font-size:16px;
+	font-wieght:bold;
+}
 .status-pill {
     width: 12px;
     height: 12px;
@@ -8946,4 +8977,18 @@ span.ti-cursor {
 	margin-top:6px;
 	margin-right:5px;
 	visibility:hidden;
+}
+
+.case_box {
+	cursor:pointer;
+}
+
+ul.list li{
+	list-style :circle !important;
+	margin-bottom:10px;
+}
+
+ol.list li{
+	list-style :decimal !important;
+	margin-bottom:10px;
 }

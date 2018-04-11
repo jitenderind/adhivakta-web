@@ -36,6 +36,20 @@ $(window).on("load", function () {
     
 });
 
+function convertToListText(text,list='ul'){
+	var newText=text.replace(/\d+/g,';');
+	var arr = newText.split(';');
+	var htmlList='<'+list+' class="list">',i;
+	for (i = 1; i < arr.length; ++i) {
+		if (arr[i] !=='' && arr[i] !==null && arr[i] !==undefined) 
+		{
+			htmlList += '<li>' + arr[i].trim() + '</li>';
+		}
+	}
+	htmlList += '</'+list+'>';
+	return htmlList;
+}
+
 function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
         sURLVariables = sPageURL.split('&'),
@@ -94,9 +108,8 @@ function loadPage(page){
     });
     
 	//start loading 
-	
 	 $.ajax({
-		 url:'load/'+page,
+		 url:window.location.protocol +'//'+window.location.host+'/load/'+page,
 		 success: function(data, textStatus, xhr) {
 			 var arr = $.parseJSON(data);
 			 //set page name 
@@ -131,7 +144,7 @@ function pageLoadFromServer(page){
         }
     });
 	 $.ajax({
-		 url:'data/'+page,
+		 url:window.location.protocol +'//'+window.location.host+'/data/'+page,
 		 success: function(data, textStatus, xhr) {
 			 //set page content
 			 $('#page-content').html(data);
@@ -142,7 +155,10 @@ function pageLoadFromServer(page){
 	 });
 }
 
-function dataLoadFromServer(page){
+function dataLoadFromServer(page,element=0){
+	if(element==0){
+		element = 'data-loader';
+	}
 	var effect = "win8_linear";
     var container = $(".ap-box");
     $(container).waitMe({
@@ -159,10 +175,10 @@ function dataLoadFromServer(page){
         }
     });
 	 $.ajax({
-		 url:'data/'+page,
+		 url:window.location.protocol +'//'+window.location.host+'/data/'+page,
 		 success: function(data, textStatus, xhr) {
 			 //set page content
-			 $('#data-loader').html(data);
+			 $('#'+element).html(data);
 			 //remove loader
              $(container).waitMe("hide");
 			 //App.init();
@@ -409,6 +425,7 @@ var apWriteCopyrights = function () {
 
         var fullscreen = $("[data-box=fullscreen]")
         $(fullscreen).on("click", function () {
+        	console.log('click kiya');
             var self = $(this);
             var container = $(this).closest(".ap-wrapper");
             if (container.hasClass("ap-full-box")) {

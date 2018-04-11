@@ -57,7 +57,7 @@ class Page extends CI_Controller
             'tab' => 'archives'
         ),
         'clients' => array(
-            'name' => 'clients',
+            'name' => 'Clients',
             'icon' => 'face',
             'tab' => 'clients'
         ),
@@ -84,6 +84,15 @@ class Page extends CI_Controller
         $data['pageIcon'] = $this->pages[$page]['icon'];
         $data['activeTab'] = $this->pages[$page]['name'];
         $data['content'] = $this->load->view('ajax/' . $page, '', TRUE);
+        echo json_encode($data);
+    }
+
+    public function load_case($id)
+    {
+        $data['pageName'] = 'My Desk';
+        $data['pageIcon'] = 'dashboard';
+        $data['activeTab'] = 'workspace';
+        $data['content'] = $this->load->view('ajax/case-details', array('id'=>$id), TRUE);
         echo json_encode($data);
     }
     

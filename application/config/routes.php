@@ -68,7 +68,11 @@ $route['archived'] = 'user/page/archived';
 $route['clients'] = 'user/page/clients';
 
 
+$route['workspace/case/(:any)'] = 'user/page/case-details?id=$1';
+
+
 $route['load/(:any)'] = 'page/load_page/$1';
+$route['load/workspace/case/(:any)'] = 'page/load_case/$1';
 $route['data/(:any)'] = 'page/load_data/$1';
 $route['nav'] = 'page/nav';
 $route['sidebar'] = 'page/sidebar';

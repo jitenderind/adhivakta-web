@@ -4,7 +4,7 @@ var arch = '<?php echo $_GET['arch']?>';
 var archKey = '<?php echo $_GET['archKey']?>';
 </script>
 <script id="casesTemplate" type="text/x-jQuery-tmpl">
-<tr>
+<tr class="case_box" data-user_case_id="${userCaseId}">
 <td>
 <div class="user_box">
     <div class="user_email">
@@ -141,6 +141,8 @@ if(key!=''){
                   },
             }).done(function (response) {
             	$(container).waitMe("hide");
+
+            	activateCaseClick();
             	//console.log(response);
                 var html=$('#casesTemplate').tmpl(response.data);
                 $('#data-content').html(html);
@@ -240,4 +242,13 @@ if(key!=''){
             });
         }
        loadCases(1,key);
+
+function activateCaseClick(){
+       //handle case details click 
+       $('.table').on('click','#data-content tr',function(){
+    	   var urlPath = window.location.protocol +'//'+window.location.host+'/workspace/case/'+$(this).data('user_case_id');
+   	    window.history.pushState({"html":"","pageTitle":""},"", urlPath);
+    	   pageLoadFromServer('/case-details?id='+$(this).data('user_case_id'));
+           });
+}
 </script>
