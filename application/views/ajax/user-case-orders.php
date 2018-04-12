@@ -35,6 +35,6 @@ $.ajax({
 	var html=$('#caseOrderTemplate').tmpl(response);
     $('#case-orders').html(html);
     //now load user case data 
-    App.init();
+    //App.init();
 }); 
 </script>

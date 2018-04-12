@@ -50,6 +50,6 @@ $.ajax({
 	var html=$('#caseDetailTemplate').tmpl(response);
     $('#case-listings').html(html);
     //now load user case data 
-    App.init();
+    //App.init();
 }); 
 </script>

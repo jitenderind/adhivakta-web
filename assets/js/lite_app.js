@@ -419,13 +419,13 @@ var apWriteCopyrights = function () {
         "use strict";
         var refresh = $("[data-box=refresh]");
         $(refresh).on("click", function () {
+        	console.log('sd');
             dataLoadFromServer($(this).attr('data-url'));
             return false;
         });
 
         var fullscreen = $("[data-box=fullscreen]")
         $(fullscreen).on("click", function () {
-        	console.log('click kiya');
             var self = $(this);
             var container = $(this).closest(".ap-wrapper");
             if (container.hasClass("ap-full-box")) {
