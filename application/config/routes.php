@@ -67,6 +67,8 @@ $route['invoice'] = 'user/page/invoice';
 $route['archived'] = 'user/page/archived';
 $route['clients'] = 'user/page/clients';
 
+$route['all-user-staff/(:any)'] = 'user/all_user_staff/$1';
+
 
 $route['workspace/case/(:any)'] = 'user/page/case-details?id=$1';
 

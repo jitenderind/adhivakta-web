@@ -25,9 +25,9 @@
 <link
 	href="<?php echo base_url(); ?>assets/plugins/bootstrap/css/bootstrap-reboot.css"
 	rel="stylesheet" />
-	<!-- <link
+	<link
 	href="<?php echo base_url(); ?>assets/plugins/bootstrap3-editable/css/bootstrap-editable.css"
-	rel="stylesheet" />  -->
+	rel="stylesheet" />
 <link href="<?php echo base_url(); ?>assets/css/colors.css"
 	rel="stylesheet" id="themecolor" />
 <link href="<?php echo base_url(); ?>assets/css/style.css"

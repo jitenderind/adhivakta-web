@@ -96,9 +96,17 @@ class User extends CI_Controller
                 
                 if(password_verify($_POST['password'],$result->password)){
                 // set session variables
+                if($result->parentUserId!=0){
+                    $userId=$result->parentUserId;
+                    $myId = $result->userId;
+                } else {
+                    $userId=$result->userId;
+                    $myId = $result->userId;
+                }
                 $userdata = array(
                     'user' => array(
-                        'userId' => $result->userId,
+                        'userId' => $userId,
+                        'myId' => $myId,
                         'first_name' => $result->first_name,
                         'email' => $result->email,
                         'last_name' => $result->last_name,
@@ -253,12 +261,41 @@ class User extends CI_Controller
                 'plan_start_date' =>date('Y-m-d H:i:s'),
                 'plan_valid_till' =>date('Y-m-d H:i:s',strtotime("+15 days")),
                 'registration_type' =>$_POST['registration_type'],
+                'loginIP' => $_SERVER['REMOTE_ADDR'],
                 'registered_on' => date('Y-m-d H:i:s')
             );
             //var_dump($data);
             $query = $this->db->insert($this->userTbl, $data);
             //var_dump($query);
             $userId = $this->db->insert_id();
+            $curl = curl_init();
+            if($_POST['staff']!=0){
+                $curl_request="POST";
+                $url=API_URL."staff/add?parentUserId=1&first_name=Manish&last_name=Sharma&user_type=clerk";
+                    
+            } else {
+                $curl_request="PUT";
+                $url=API_URL."edit-staff/".$_POST['staff']."?userId=".$userId;
+            }
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => $curl_request,
+            CURLOPT_HTTPHEADER => array(
+            "Authorization: Bearer $2y$04$v2GRtfPdR9Vmx/.JnH/pd.wvoQ2AshJhBhIFdvxmtpwIUUvbMT91O",
+            "Cache-Control: no-cache",
+            "Postman-Token: 2b5d48bd-ffd6-4dec-b50c-5b31e0b9e699"
+                ),
+            ));
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            
+            curl_close($curl);
+            
             if ($userId) {
                 
                 // set session variables
@@ -480,5 +517,21 @@ class User extends CI_Controller
         }
         
         // reset password
+    }
+    
+    
+    public function all_user_staff($userId){
+        //laod database 
+        $this->load->database();
+        $query = $this->db->select('userId,first_name,last_name,user_type')->where( array(
+            'parentUserId' => $userId,
+        ))->or_where( array(
+            'userId' => $userId,
+        ))->get($this->userTbl);
+        
+        $result = $query->result();
+        echo json_encode($result);
+        
+        
     }
 }

@@ -2,117 +2,107 @@
 $id =($_GET['id'])?$_GET['id']:$id;
 ?>
 <div class="content ">
-<div class="content-sm bg-gray">
-	<div class="row">
-		<div class="col-lg-12 col-xl-12">
-			<div class="row" id="page-data-content">
+	<div class="content-sm bg-gray">
+		<div class="ap-wrapper">
+			<div class="row">
+				<div class="col-lg-12 col-xl-12">
+					<div class="row" id="page-data-content"></div>
+
+				</div>
 
 			</div>
-			
-		</div>
 
-	</div>
-	</div>
-	
-	<div class="row">
-		<div class="col-lg-12 col-xl-12">
-			<div class="row" id="data-content">
-<div class="col-lg-12">
-                    <div class="ap-wrapper">
-                        <div class="ap-box">
-                            <div class="bd-example bd-example-tabs" role="tabpanel">
-                                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#listing"
-                                           role="tab" aria-controls="profile" aria-expanded="false">Listing</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#orders"
-                                           role="tab" aria-controls="profile" aria-expanded="false">Orders</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#office_reports"
-                                           role="tab" aria-controls="profile" aria-expanded="false">Office Reports</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#documents"
-                                           role="tab" aria-controls="profile" aria-expanded="false">Documents</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#case_tasks"
-                                           role="tab" aria-controls="profile" aria-expanded="false">Tasks</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#case_notes"
-                                           role="tab" aria-controls="profile" aria-expanded="false">Notes</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#client_details"
-                                           role="tab" aria-controls="profile" aria-expanded="false">Client Details</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="home-tab" data-toggle="tab" href="#case_details"
-                                           role="tab" aria-controls="home" aria-expanded="true">More Details</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade active show" id="listing" role="tabpanel"
-                                         aria-labelledby="profile-tab" aria-expanded="false">
-                                        <div id="case-listings-content"></div>
-                                    </div>
-                                    <div class="tab-pane fade" id="orders" role="tabpanel"
-                                         aria-labelledby="profile-tab" aria-expanded="false">
-                                        <div id="case-orders-content"></div>
-                                    </div>
-                                    <div class="tab-pane fade" id="office_reports" role="tabpanel"
-                                         aria-labelledby="profile-tab" aria-expanded="false">
-                                        <div id="case-office-reports-content"></div>
-                                    </div>
-                                    <div class="tab-pane fade" id="documents" role="tabpanel"
-                                         aria-labelledby="profile-tab" aria-expanded="false">
-                                        <div id="case-documents-content"></div>
-                                    </div>
-                                    <div class="tab-pane fade" id="case_tasks" role="tabpanel"
-                                         aria-labelledby="profile-tab" aria-expanded="false">
-                                        <div id="case-tasks-content"></div>
-                                    </div>
-                                    <div class="tab-pane fade" id="case_notes" role="tabpanel"
-                                         aria-labelledby="profile-tab" aria-expanded="false">
-                                        <div id="case-notes-content"></div>
-                                    </div>
-                                    <div class="tab-pane fade" id="client_details" role="tabpanel"
-                                         aria-labelledby="profile-tab" aria-expanded="false">
-                                        <div id="client-detail-content"></div>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane fade" id="case_details"
-                                         aria-labelledby="home-tab" aria-expanded="true">
-                                        <div id="case-detail-content"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+		<div class="row">
+			<div class="col-lg-12 col-xl-12">
+				<div class="row" id="data-content">
+					<div class="col-lg-12">
+						<div class="white-bg padded-box">
+								<div class="bd-example bd-example-tabs" role="tabpanel">
+									<ul class="nav nav-tabs" id="myTab" role="tablist">
+										<li class="nav-item"><a class="nav-link active"
+											id="profile-tab" data-toggle="tab" href="#listing" role="tab"
+											aria-controls="profile" aria-expanded="false">Listing</a></li>
+										<li class="nav-item"><a class="nav-link" id="profile-tab"
+											data-toggle="tab" href="#orders" role="tab"
+											aria-controls="profile" aria-expanded="false">Orders</a></li>
+										<li class="nav-item"><a class="nav-link" id="profile-tab"
+											data-toggle="tab" href="#office_reports" role="tab"
+											aria-controls="profile" aria-expanded="false">Office Reports</a>
+										</li>
+										<li class="nav-item"><a class="nav-link" id="profile-tab"
+											data-toggle="tab" href="#documents" role="tab"
+											aria-controls="profile" aria-expanded="false">Documents</a></li>
+										<li class="nav-item"><a class="nav-link" id="profile-tab"
+											data-toggle="tab" href="#case_tasks" role="tab"
+											aria-controls="profile" aria-expanded="false">Tasks</a></li>
+										<li class="nav-item"><a class="nav-link" id="profile-tab"
+											data-toggle="tab" href="#case_notes" role="tab"
+											aria-controls="profile" aria-expanded="false">Notes</a></li>
+										<li class="nav-item"><a class="nav-link" id="profile-tab"
+											data-toggle="tab" href="#client_details" role="tab"
+											aria-controls="profile" aria-expanded="false">Client Details</a>
+										</li>
+										<li class="nav-item"><a class="nav-link" id="home-tab"
+											data-toggle="tab" href="#case_details" role="tab"
+											aria-controls="home" aria-expanded="true">More Details</a></li>
+									</ul>
+									<div class="tab-content" id="myTabContent">
+										<div class="tab-pane fade active show" id="listing"
+											role="tabpanel" aria-labelledby="profile-tab"
+											aria-expanded="false">
+											<div id="case-listings-content"></div>
+										</div>
+										<div class="tab-pane fade" id="orders" role="tabpanel"
+											aria-labelledby="profile-tab" aria-expanded="false">
+											<div id="case-orders-content"></div>
+										</div>
+										<div class="tab-pane fade" id="office_reports" role="tabpanel"
+											aria-labelledby="profile-tab" aria-expanded="false">
+											<div id="case-office-reports-content"></div>
+										</div>
+										<div class="tab-pane fade" id="documents" role="tabpanel"
+											aria-labelledby="profile-tab" aria-expanded="false">
+											<div id="case-documents-content"></div>
+										</div>
+										<div class="tab-pane fade" id="case_tasks" role="tabpanel"
+											aria-labelledby="profile-tab" aria-expanded="false">
+											<div id="case-tasks-content"></div>
+										</div>
+										<div class="tab-pane fade" id="case_notes" role="tabpanel"
+											aria-labelledby="profile-tab" aria-expanded="false">
+											<div id="case-notes-content"></div>
+										</div>
+										<div class="tab-pane fade" id="client_details" role="tabpanel"
+											aria-labelledby="profile-tab" aria-expanded="false">
+											<div id="client-detail-content"></div>
+										</div>
+										<div role="tabpanel" class="tab-pane fade" id="case_details"
+											aria-labelledby="home-tab" aria-expanded="true">
+											<div id="case-detail-content"></div>
+										</div>
+									</div>
+								</div>
+						</div>
+
+					</div>
+
+				</div>
 			</div>
-			
 		</div>
-
 	</div>
 </div>
 </div>
 
-<input type="hidden" id="caseId" value="" />
-<div id="data-loader1"></div>
+		<input type="hidden" id="caseId" value="" />
+		<div id="data-loader1"></div>
 
-<script id="caseTemplate" type="text/x-jQuery-tmpl">
+		<script id="caseTemplate" type="text/x-jQuery-tmpl">
 <div class="col-lg-12">
-					<div class="ap-wrapper">
+					<div class="">
 						<div class="ap-box">
 						<h5 class="ap-header">
 								${caseTitle}
 
-<div class="ap-box-controls">
-
-								</div>
 <div class="ap-box-controls">
 									<i class="material-icons" data-box="refresh"
 										data-effect="win8_linear" data-url="/user-case-data?id=${userCaseId}">refresh</i> <i
@@ -147,8 +137,20 @@ ${forum}
 Next Hearing
 </span><br>
 <span class="bigTitle">
+{{if checkInFuture(nextListing)}}
         ${formatDateFull(nextListing)} 
+
+{{else}}
+Not Listed
+{{/if}}
     </span>
+{{if checkInFuture(nextListing)}}
+{{if nextListingKind !="cause list"}}
+<span class="badge" data-color="blue">Tentitive</span>
+{{/if}}
+{{/if}}
+
+
 <span class="f-s-12">Court No. ${nextListingCourtNo} | Item No:  ${nextListingItemNo}
 </span>	<br>
 <span class="f-s-12">
@@ -163,7 +165,7 @@ Next Hearing
 
 </script>
 
-<script id="caseDetailTemplate" type="text/x-jQuery-tmpl">
+		<script id="caseDetailTemplate" type="text/x-jQuery-tmpl">
 <div class="row">
     <div class="col-lg-12 col-md-12">
 <div class="table-responsive">
@@ -171,10 +173,6 @@ Next Hearing
 									<thead>
 									</thead>
 									<tbody>
-<tr><td><span class="f-s-14">Case Details</span></td><td><span>${caseNoDetail}</span></td></tr>
-<tr><td><span class="f-s-14">Diary</span></td><td><span>${diaryDetail}</span></td></tr>
-<tr><td><span class="f-s-14">Status</span></td><td><span>${statusDetail}</span></td></tr>
-<tr><td><span class="f-s-14">Category</span></td><td><span>${category}</span></td></tr>
 <tr><td><span class="f-s-14">Petitioner</span></td><td><span class="list">{{html convertToListText(petitioner,'ol')}}</span></td></tr>
 <tr><td><span class="f-s-14">Respondent</span></td><td><span class="list">{{html convertToListText(respondent,'ol')}}</span></td></tr>
 <tr><td><span class="f-s-14">Petitioner Counsel</span></td><td><span>${p_advocate}</span></td></tr>
@@ -185,7 +183,7 @@ Next Hearing
     </div>
 </div>
 </script>
-<script id="clientTemplate" type="text/x-jQuery-tmpl">
+		<script id="clientTemplate" type="text/x-jQuery-tmpl">
 <div class="row">
 <div class="col-lg-6 col-md-6 col-sm-12">
 						<h5 class="ap-header">
@@ -214,7 +212,7 @@ Next Hearing
 
 </script>
 
-<script>
+		<script>
 $.ajax({
     "url": "<?php echo API_URL.'user-case/'.$_SESSION['user']['userId'].'/'.$id?>",
     type: "GET",
@@ -256,6 +254,8 @@ $.ajax({
     dataLoadFromServer('/user-case-office-reports?id='+response[0].caseId,'case-office-reports-content');
     
     //now load user case data 
+    dataLoadFromServer('/user-case-tasks?userCaseId='+response[0].caseId+'&type=all','case-tasks-content');
+    dataLoadFromServer('/user-case-notes?userCaseId='+response[0].caseId,'case-notes-content');
     App.init();
 });
 

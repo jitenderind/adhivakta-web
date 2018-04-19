@@ -197,7 +197,7 @@
 <script>
         $("#caseYear").focus();
         $.ajax({
-            "url": '<?php echo API_URL?>forums',
+            "url": '<?php echo API_URL.'user-forums/'.$_SESSION['user']['userId']?>',
             type: "GET",
             dataType: "json",
             contentType: "application/json",
@@ -212,20 +212,25 @@
         	$.each(response, function(i, itemObj) {
             	item = {};
                 item ["value"] = response[i].forum;
-                item ["data"] = response[i].forumId;
+                dataItem={};
+                dataItem ["id"] = response[i].forumId;
+                dataItem ["category"] = response[i].category;
+                //data.push(dataItem);
+                item['data']=dataItem;
                 forums.push(item);
         	});
-            
         	$( "#forums" ).devbridgeAutocomplete({
             	lookup: forums,
             	minChars: 0,
+            	groupBy:'category',
             	triggerSelectOnValidInput: false,
                 onSelect: function (suggestion) {
                     //alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
-                    $("#forumIdValue").val(suggestion.data);
+                    $("#forumIdValue").val(suggestion.data.id);
                     $('#forums').focus();
+                    $('.autocomplete-suggestions').hide();
                     $.ajax({
-                        "url": '<?php echo API_URL?>case-types/'+suggestion.data,
+                        "url": '<?php echo API_URL?>case-types/'+suggestion.data.id,
                         type: "GET",
                         dataType: "json",
                         contentType: "application/json",
@@ -252,6 +257,7 @@
                                 //alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
                             	$("#caseTypeValue").val(suggestion.data);
                                 $('#caseType').focus();
+                                $('.autocomplete-suggestions').hide();
                                 return false;
                             }
                         });

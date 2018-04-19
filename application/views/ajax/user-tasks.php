@@ -1,90 +1,71 @@
 <script>
-var key = '<?php echo $_GET['key']?>';
-var arch = '<?php echo $_GET['arch']?>';
-var archKey = '<?php echo $_GET['archKey']?>';
+var pageKey = '<?php echo $_GET['key']?>';
+var pageType = '<?php echo $_GET['type']?>';
+var pageUser = '<?php echo $_GET['mine']?>';
 </script>
-<script id="casesTemplate" type="text/x-jQuery-tmpl">
-<tr class="case_box" data-user_case_id="${userCaseId}">
+<script id="taskTemplate" type="text/x-jQuery-tmpl">
+<tr>
 <td>
 <div class="user_box">
     <div class="user_email">
-    <span class="title">
-        ${caseTitle}
-    </span>
-        <span class="f-s-12">
-        ${caseType} - ${caseNo}/${caseYear}
-    </span>
-</span>
-        <span class="f-s-12">
-        Diary No: ${diaryNo}
-    </span>
-{{if status.toUpperCase() =="DISPOSED"}}
-<span class="f-s-12 text-success">
-        ${status}
+{{if is_completed==1}}
+    <span class="title strike">
+        ${task}
     </span>
 {{else}}
-<span class="f-s-12 text-danger">
-        ${status}
+<span class="title">
+        ${task}
     </span>
 {{/if}}
+{{if is_completed==1}}
+        <span class="f-s-12 text-muted strike">
+        ${caseTitle}
+    </span>
+{{else}}
+<span class="f-s-12 text-muted">
+        ${caseTitle}
+    </span>
+{{/if}}
+</span>
     </div>
 </div>
 </td>
 <td>
-<span class="f-s-12">
-        ${forum}
+{{if is_completed==1}}
+<span class="f-s-14 text-primary strike">
+        ${prettyDate(due_date)}
     </span>
-
-{{if status.toUpperCase() =="PENDING"}}
-{{if checkInFuture(nextListing)}}
-{{if nextListingKind !="cause list"}}
-<br>
-<span class="badge" data-color="blue">Tentitive</span>
 {{else}}
-<br>
-<span class="badge" data-color="green">Listed</span>
-{{/if}}
-<span class="bigTitle">
-${formatDate(nextListing)}
-</span>
-{{else}}
-<br>
-<span class="badge-info badge f-s-12">
-last listed on</span><br>
-<span class="title">
-${formatDateFull(nextListing)}
-</span><br>
-{{/if}}
-<span class="f-s-12">
-       Court No: ${nextListingCourtNo} | Item No:  ${nextListingItemNo}
+<span class="f-s-14 text-primary">
+        ${prettyDate(due_date)}
     </span>
 {{/if}}
 </td>
 <td>
-<span class="smallTitle text-primary">
-        ${client_name}
-    </span><br>
-<span class="f-s-12">
-        ${client_phone} 
-    </span><br>
-<span class="f-s-12">
-        ${client_email} 
+{{if is_completed==1}}
+<span class="f-s-14 strike">
+        ${assignedUser}
     </span>
+{{else}}
+<span class="f-s-14">
+        ${assignedUser}
+    </span>
+{{/if}}
 </td>
 <td class="text-center">
-{{if archKey!='' || arch==1 }}
-<button type="button" class="btn btn-outline-primary btn-sm archive-btn" data-user_case_id="${userCaseId}" data-title="${caseTitle}" data-caseno="${caseNo}" data-caseyear="${caseYear}">Unarchive</button><br>
+{{if is_completed==1 }}
+<button type="button" class="btn btn-outline-danger btn-sm archive-btn" data-id="${taskId}" data-title="${task}" data-action="Uncomplete" data-value="0">Mark Uncomplete</button>
 {{else}}
-<button type="button" class="btn btn-outline-primary btn-sm archive-btn" data-user_case_id="${userCaseId}" data-title="${caseTitle}" data-caseno="${caseNo}" data-caseyear="${caseYear}">Archive</button><br>
+<button type="button" class="btn btn-outline-primary btn-sm archive-btn" data-id="${taskId}" data-title="${task}" data-action="Complete" data-value="1">Mark Completed</button>
 {{/if}}
-<button type="button" class="btn btn-outline-danger btn-sm delete-btn" data-user_case_id="${userCaseId}" data-title="${caseTitle}" data-caseno="${caseNo}" data-caseyear="${caseYear}">Delete</button>
+<button type="button" class="btn btn-outline-danger btn-sm delete-btn" data-id="${taskId}" data-title="${task}">Delete</button>
 </td>
 </tr>
 </script>
 
 <script type="text/javascript">
 //for page load
-        function loadCases(page,key){
+        function loadTasks(page,key,type,mine,refresh){
        	 //show loading 
     		  var effect = "win8_linear";
   		    var container = $(".ap-box");
@@ -101,42 +82,18 @@ ${formatDateFull(nextListing)}
   		        onClose : function () {
   		        }
   		    });
+pageKey=key;
+pageType=type;
+pageUser=mine;
+  		    
 if(key!=''){
-	var url ="<?php echo API_URL.'user-cases/'.$_SESSION['user']['userId'].'/search/'?>"+key;
-	var archVal=1;
-	var archText="archive";
-	var archRText="unarchive";
-	var archTitle="Archived";
-	var archConfirmText ="archive";
-	var archCancelText="active";
-} else if(arch==1){
-	var url ="<?php echo API_URL.'user-archived-cases/'.$_SESSION['user']['userId']?>";
-	var archVal=0;
-	var archText="activate";
-	var archRText="archive";
-	var archTitle="Unarchived";
-	var archConfirmText ="active";
-	var archCancelText="archive";
-} else if(archKey!=''){
-	var url ="<?php echo API_URL.'user-archived-cases/'.$_SESSION['user']['userId'].'/search/'?>"+archKey;
-	var archVal=0;
-	var archText="activate";
-	var archRText="archive";
-	var archTitle="Unarchived";
-	var archConfirmText ="active";
-	var archCancelText="archive";
-} else {
-	var url ="<?php echo API_URL.'user-cases/'.$_SESSION['user']['userId']?>";
-	var archVal=1;
-	var archText="archive";
-	var archRText="unarchive";
-	var archTitle="Archived";
-	var archConfirmText ="archive";
-	var archCancelText="active";
+	var url ="<?php echo API_URL.'tasks/'.$_SESSION['user']['userId'].'/search/'?>"+key+'?type='+type+'&mine='+mine+'&page='+page;
+}  else {
+	var url ='<?php echo API_URL.'tasks/'.$_SESSION['user']['userId']?>?type='+type+'&mine='+mine+'&page='+page;
 }
   		    
         	$.ajax({
-                "url": url+"?page="+page,
+                "url": url,
                 type: "GET",
                 dataType: "json",
                 contentType: "application/json",
@@ -149,19 +106,21 @@ if(key!=''){
             }).done(function (response) {
             	$(container).waitMe("hide");
 
-            	activateCaseClick();
             	//console.log(response);
-                var html=$('#casesTemplate').tmpl(response.data);
+                var html=$('#taskTemplate').tmpl(response.data);
                 $('#data-content').html(html);
                 //create pagination
-                window.pagObj = $('#pagination').twbsPagination({
+                if(refresh){
+                 $('#pagination').twbsPagination('destroy');
+                }
+                $('#pagination').twbsPagination({
                     totalPages: response.last_page,
                     visiblePages: 10,
                     onPageClick: function (event, page) {
                         
                     }
                 }).on('page', function (event, page) {
-                	loadCases(page,key);
+                	loadTasks(page,key,type,mine,false);
                 });
 
 
@@ -169,11 +128,13 @@ if(key!=''){
                 //for case archive 
                 $(".archive-btn").on("click", function (e) {
                     e.preventDefault();
-                    e.stopPropagation();
-                    var id =$(this).data('user_case_id');
+                    var id =$(this).data('id');
+                    var title =$(this).data('title');
+                    var action =$(this).data('action');
+                    var value =$(this).data('value');
                     swal({
                   	  title: "Are you sure?",
-                  	  text: "You are goning to "+archText+" case "+$(this).data('title')+" ["+$(this).data('caseno')+"/"+$(this).data('caseyear')+"]",
+                  	  text: "You are goning to Mark task - "+title+" task as "+action,
                   	  type: "warning",
                   	  showCancelButton: true,
                   	  confirmButtonClass: "btn btn-purple waves-effect",
@@ -187,7 +148,7 @@ if(key!=''){
                   	  if (isConfirm) {
                       	  //send request to update data
                     		$.ajax({
-                                "url": '<?php echo API_URL?>user-case/'+id+'?is_archived='+archVal,
+                                "url": '<?php echo API_URL?>task/'+id+'?is_completed='+value,
                                 type: "PUT",
                                 dataType: "json",
                                 contentType: "application/json",
@@ -200,24 +161,26 @@ if(key!=''){
                                   },
                             }).done(function (response) {
                             	//reload page 
-                         		 loadCases(1,key);
+                            	loadTasks(page,key,type,mine,true);
                             });
                       	  
-                  	    swal(archTitle+"!", "Your case is in "+archConfirmText+" list now. You can "+archRText+" it any time you wish to.", "success");
+                  	    swal("Marked "+action+"!", "Your task - "+title+" is marked as "+action+".", "success");
                   	  } else {
-                  	    swal("Cancelled", "Your case is still in "+archCancelText+" case list!", "error");
+                  	    swal("Cancelled", "No action taken on your task!", "error");
                   	  }
                   	});
                     });
 
                 //for case detele 
                 $(".delete-btn").on("click", function (e) {
-                    var id =$(this).data('user_case_id');
+                	var id =$(this).data('id');
+                    var title =$(this).data('title');
+                    var action =$(this).data('action');
+                    var value =$(this).data('value');
                 	e.preventDefault();
-                	e.stopPropagation();
                     swal({
                   	  title: "Are you sure?",
-                  	  text: "You are goning to delete case "+$(this).data('title')+" ["+$(this).data('caseno')+"/"+$(this).data('caseyear')+"].",
+                  	  text: "You are goning to delete task "+title,
                   	  type: "warning",
                   	  showCancelButton: true,
                   	  confirmButtonClass: "btn btn-purple waves-effect",
@@ -230,7 +193,7 @@ if(key!=''){
                   	function(isConfirm) {
                   	  if (isConfirm) {
                     		$.ajax({
-                                "url": '<?php echo API_URL?>user-case/'+id,
+                                "url": '<?php echo API_URL?>task/'+id,
                                 type: "DELETE",
                                 "async": true,
                                 "crossDomain": true,
@@ -240,7 +203,7 @@ if(key!=''){
                                   },
                             }).done(function (response) {
                             	//reload page 
-                         		 loadCases(1,key);
+                            	loadTasks(page,key,type,mine,true);
                             });
                   	    swal("Deleted!", "Your case is deleted from your list.", "success");
                   	  } else {
@@ -250,14 +213,17 @@ if(key!=''){
                     });
             });
         }
-       loadCases(1,key);
+       loadTasks(1,pageKey,pageType,pageUser,true);
 
-function activateCaseClick(){
-       //handle case details click 
-       $('.table').on('click','#data-content tr',function(e){
-    	   var urlPath = window.location.protocol +'//'+window.location.host+'/workspace/case/'+$(this).data('user_case_id');
-   	    window.history.pushState({"html":"","pageTitle":""},"", urlPath);
-    	   pageLoadFromServer('/case-details?id='+$(this).data('user_case_id'));
-           });
-}
+       //handle button click
+       $('.btn-type').on('click', '.btn', function() {
+       	  $(this).addClass('active').siblings().removeClass('active');
+         	loadTasks(1,pageKey,$(this).data('type'),pageUser,true);
+       	});
+
+       $('.btn-user').on('click', '.btn', function() {
+           console.log();
+     	  $(this).addClass('active').siblings().removeClass('active');
+       	loadTasks(1,pageKey,pageType,$(this).data('type'),true);
+     	});
 </script>

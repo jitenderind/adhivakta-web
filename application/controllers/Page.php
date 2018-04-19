@@ -65,21 +65,19 @@ class Page extends CI_Controller
 
     public function nav()
     {
+        $this->load->helper('url');
         echo $data = $this->load->view('common/nav', '', TRUE);
-        // var_dump($data);
-        // $this->set_output($data);
     }
 
     public function sidebar()
     {
         $this->load->helper('url'); // loading url helper to load assests
         echo $data = $this->load->view('common/sidebar', '', TRUE);
-        // var_dump($data);
-        // $this->set_output($data);
     }
 
     public function load_page($page)
     {
+        $this->load->helper('url');
         $data['pageName'] = $this->pages[$page]['name'];
         $data['pageIcon'] = $this->pages[$page]['icon'];
         $data['activeTab'] = $this->pages[$page]['name'];
@@ -89,6 +87,7 @@ class Page extends CI_Controller
 
     public function load_case($id)
     {
+        $this->load->helper('url');
         $data['pageName'] = 'My Desk';
         $data['pageIcon'] = 'dashboard';
         $data['activeTab'] = 'workspace';
@@ -98,6 +97,7 @@ class Page extends CI_Controller
     
     public function load_data($page)
     {
+        $this->load->helper('url');
         echo $data = $this->load->view('ajax/'.$page, '', TRUE);
     }
 }

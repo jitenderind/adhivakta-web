@@ -32,7 +32,7 @@ $(window).on("load", function () {
  	      	return false;
  	      });
     });
-    
+    apScrollToTopButton();
     
 });
 
@@ -66,7 +66,11 @@ function getUrlParameter(sParam) {
 }
 
 function checkInFuture(date){
-	if(new Date(date) >= new Date())
+	var dateToCheck = new Date(date);
+	dateToCheck.setHours(0,0,0,0);
+	var currentDate = new Date();
+	currentDate.setHours(0,0,0,0);
+	if(dateToCheck >= currentDate)
 	{
 		return true;
 	} else {
@@ -86,8 +90,24 @@ function formatDateFull(date){
 	return new_date;
 }
 
+function prettyDate(date){
+	var new_date=$.format.prettyDate(new Date(date));
+	//$.datepicker.formatDate('M dd', new Date(date));
+	return new_date;
+}
+function clearAllTimeouts(){
+	if (typeof clearAllTimeouts.last == 'undefined' ) {
+	    clearAllTimeouts.last = setTimeout("||void",0); // Opera || IE other browsers accept "" or "void"
+	    }
+	var mx = setTimeout("||void",0);
+	for(var i=clearAllTimeouts.last;i<=mx;i++){
+	    clearTimeout(i);
+	    }
+	clearAllTimeouts.last = i;
+	}
 function loadPage(page){
-	//set URL
+	clearAllTimeouts();
+//set URL
     var urlPath = window.location.protocol +'//'+window.location.host+page
     window.history.pushState({"html":"","pageTitle":""},"", urlPath);
 	//start refresh
@@ -427,7 +447,8 @@ var apWriteCopyrights = function () {
         var fullscreen = $("[data-box=fullscreen]")
         $(fullscreen).on("click", function () {
             var self = $(this);
-            var container = $(this).closest(".ap-wrapper");
+            var container = $(".ap-wrapper");
+            console.log(container);
             if (container.hasClass("ap-full-box")) {
                 $(this).text("fullscreen");
                 $(container).removeClass("ap-full-box");
@@ -504,7 +525,6 @@ var apWriteCopyrights = function () {
             },
             initComponent      : function () {
                 apWriteCopyrights();
-                apScrollToTopButton();
                 apCountJS();
                 apTypeitJS();
                 apboxControls();

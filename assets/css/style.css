@@ -6727,7 +6727,7 @@ div.type-post .entry-content {
 }
 
 .table-separate .bigTitle{
-	font-size:28px;
+	font-size:26px;
 	font-wieght:bold;
 	display:block;
 }
@@ -8956,7 +8956,7 @@ span.ti-cursor {
 .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; cursor:pointer;}
 .autocomplete-selected { background: #e2d3ff; cursor:pointer;}
 .autocomplete-suggestions strong { font-weight: normal; color: #5729ab; cursor:pointer;}
-.autocomplete-group { padding: 2px 5px; cursor:pointer;}
+.autocomplete-group { padding: 2px 5px; cursor:pointer;background:#9368E9;border-bottom: 1px solid #000;color:#fff;}
 .autocomplete-group strong { display: block; border-bottom: 1px solid #000; cursor:pointer;}
 
 
@@ -8991,4 +8991,34 @@ ul.list li{
 ol.list li{
 	list-style :decimal !important;
 	margin-bottom:10px;
+}
+.strike{
+	text-decoration: line-through;
+}
+
+.editable{
+	text-decoration: dashed underline #ccc;
+}
+
+.editable:hover{
+	text-decoration: dashed underline;
+}
+
+.white-bg{
+	background:#ffffff;
+}
+
+.padded-box{
+	    padding: 1.5rem 2rem;
+    margin-bottom: 1rem;
+	border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0px 0px 30px rgba(69, 101, 173, 0.1);
+}
+.editableform .form-group,.editableTextarea, .editablefrom .editable-input, .form-group div{
+width:100% !important;
+}
+
+.editableTextarea  {
+	height: 100px !important;
 }
