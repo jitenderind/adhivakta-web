@@ -1,6 +1,8 @@
 <?php 
 $id =($_GET['id'])?$_GET['id']:$id;
 ?>
+<script src="/assets/plugins/dropzone/dropzone.min.js" type="text/javascript"></script>
+<link href="/assets/plugins/dropzone/dropzone.min.css" rel="stylesheet"/>
 <div class="content ">
 	<div class="content-sm bg-gray">
 		<div class="ap-wrapper">
@@ -256,6 +258,7 @@ $.ajax({
     //now load user case data 
     dataLoadFromServer('/user-case-tasks?userCaseId='+response[0].caseId+'&type=all','case-tasks-content');
     dataLoadFromServer('/user-case-notes?userCaseId='+response[0].caseId,'case-notes-content');
+    dataLoadFromServer('/user-case-documents?userCaseId='+response[0].caseId,'case-documents-content');
     App.init();
 });
 

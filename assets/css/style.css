@@ -52,8 +52,8 @@ Website: http://aptechstudio.com
 @import url('../plugins/pace/pace.css');
 @import url('essential.css');
 @import url('../plugins/material_icon/icon.css');
-@import url('../plugins/simple-line-icons/css/simple-line-icons.css');
-@import url('../plugins/font-awesome-4.7.0/css/font-awesome.min.css');
+/*@import url('../plugins/simple-line-icons/css/simple-line-icons.css');*/
+@import url('../plugins/font-awesome/css/fontawesome-all.min.css');
 @import url('../plugins/weather-icons/css/weather-icons.css');
 @import url('../plugins/weather-icons/css/weather-icons-wind.css');
 @import url('../plugins/perfect-scrollbar/css/perfect-scrollbar.css');
@@ -9019,6 +9019,42 @@ ol.list li{
 width:100% !important;
 }
 
+
 .editableTextarea  {
 	height: 100px !important;
+}
+.editable-input, .editable-buttons {
+	display: inline-block !important;
+}
+.editable-buttons {
+	margin-left:5px;
+	width:auto !important;
+}
+
+.editable-buttons button{
+	font-size:12px !important;
+	padding:5px !important;
+}
+
+.editable-buttons button i{
+	font-size:16px !important;
+}
+
+.form-group div.editable-buttons,.form-group div.editable-input {
+    width: auto !important;
+}
+
+.editable-input .form-control{
+	border-top:0 !important;
+	border-left:0 !important;
+	border-right:0 !important;
+	border-bottom:1px solid #9368E9;
+	font-size:14px;
+	line-height:1px !important;
+	border-radius:0 !important;
+	padding:2px !important;
+}
+
+.fullWidth{
+	width: 90% !important;
 }

@@ -25,7 +25,12 @@ class User extends CI_Controller
     {
         $this->load->helper('url'); // loading url helper to load assests
         $this->load->library('session');
+        $session=$this->session->userdata('user');
         if ($this->session->userdata('user')) {
+            if($session['non-payment']==1){
+                $this->plans();
+                return false;
+            }
             $this->data['pageTitle'] = DEFAULT_TITLE;
             $this->data['page'] = 'workspace';
             $this->load->view('page', $this->data);
@@ -38,7 +43,12 @@ class User extends CI_Controller
     {
         $this->load->helper('url'); // loading url helper to load assests
         $this->load->library('session');
+        $session=$this->session->userdata('user');
         if ($this->session->userdata('user')) {
+            if($session['non-payment']==1){
+                $this->plans();
+                return false;
+            }
             $this->data['pageTitle'] = DEFAULT_TITLE;
             $this->data['page'] = $page;
             $this->load->view('page', $this->data);
@@ -47,7 +57,22 @@ class User extends CI_Controller
         }
     }
     
-
+    public function plans()
+    {
+        $this->load->library('session');
+        $this->load->helper('url'); // loading url helper to load assests
+        
+            $this->data['pageTitle'] = DEFAULT_TITLE;
+            $this->data['page'] = 'plans';
+            $this->load->database();
+            $query = $this->db->get('plans');
+            $r['result'] = $query->result();
+            $r['user']=$_SESSION['user'];
+            $this->load->view('common/header', $this->data);
+            $this->load->view('subscription-plans', $r);
+            $this->load->view('common/footer', $this->data);
+    }
+    
     public function login()
     {
         $this->load->library('session');
@@ -123,13 +148,15 @@ class User extends CI_Controller
                 // set notification interval
                // $this->load->library('settings');
                 //$userdata['notification_check_interval'] = $this->settings->fetchSetting('NOTIFICATION_CHECK_INTERVAL');
-                $this->session->set_userdata($userdata);
+               
                 //check for valid plan
                 if($result->plan_type!='free' && date("Y-m-d")>date("Y-m-d",strtotime($result->plan_valid_till))){
+                    $userdata['user']['non-payment']=1;
+                    $this->session->set_userdata($userdata);
                     echo 2;
                     die();
                 }
-                
+                $this->session->set_userdata($userdata);
                 // set login details
                 $array = array(
                     'logins' => 1,
@@ -235,7 +262,7 @@ class User extends CI_Controller
             
             // check for login process
             $this->load->database();
-            
+            $this->load->helper('string');
             //check if user exist
             $this->db->where(
                 'email', $_POST['email']
@@ -249,6 +276,7 @@ class User extends CI_Controller
             if($result){
                 redirect(base_url() . 'login?r=account_exist', 'refresh');
             } 
+            $token = random_string('alnum',15);
             
             $data = array(
                 'email' => $_POST['email'],
@@ -256,11 +284,13 @@ class User extends CI_Controller
                 'mobile' => $_POST['mobile'],
                 'first_name' => $_POST['first_name'],
                 'last_name' => $_POST['last_name'],
+                'parentUserId' => $_POST['parentUserId'],
                 'user_type' =>$_POST['user_type'],
                 'plan_type' =>$_POST['plan_type'],
                 'plan_start_date' =>date('Y-m-d H:i:s'),
                 'plan_valid_till' =>date('Y-m-d H:i:s',strtotime("+15 days")),
                 'registration_type' =>$_POST['registration_type'],
+                'token' =>$token,
                 'loginIP' => $_SERVER['REMOTE_ADDR'],
                 'registered_on' => date('Y-m-d H:i:s')
             );
@@ -269,16 +299,25 @@ class User extends CI_Controller
             //var_dump($query);
             $userId = $this->db->insert_id();
             $curl = curl_init();
-            if($_POST['staff']!=0){
+            if($_POST['staff']==0){
                 $curl_request="POST";
-                $url=API_URL."staff/add?parentUserId=1&first_name=Manish&last_name=Sharma&user_type=clerk";
-                    
+                $url=API_URL."staff/add";
+                $params=array('parentUserId'=>$userId,'userId'=>$userId,'first_name'=>$_POST['first_name'],'last_name'=>$_POST['last_name'],'user_type'=>$_POST['user_type'],'email'=>$_POST['email']);
             } else {
                 $curl_request="PUT";
-                $url=API_URL."edit-staff/".$_POST['staff']."?userId=".$userId;
+                $url=API_URL."edit-staff/".$_POST['staff'];
+                $params=array('userId'=>$userId);
             }
+            $postData = '';
+            //create name value pairs seperated by &
+            foreach($params as $k => $v)
+            {
+                $postData .= $k . '='.$v.'&';
+            }
+            $postData = rtrim($postData, '&');
             curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
+            CURLOPT_POSTFIELDS=>$postData,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -293,44 +332,26 @@ class User extends CI_Controller
             ));
             $response = curl_exec($curl);
             $err = curl_error($curl);
-            
             curl_close($curl);
-            
             if ($userId) {
-                
-                // set session variables
-                $userdata = array(
-                    'user' => array(
-                        'userId' => $userId,
-                        'first_name' => $data['first_name'],
-                        'email' => $data['email'],
-                        'last_name' => $data['last_name'],
-                        'lastLogin' => 'First Login',
-                        'plan_type'=>$_POST['plan_type'],
-                        'user_type'=>$_POST['user_type'],
-                        'logins' => 0,
-                        'loginIP' => $_SERVER['REMOTE_ADDR'],
-                        'photo' => 'nobody_m.jpg',
-                        'logged_in' => TRUE
-                    )
-                );
-                
-                
-                $this->session->set_userdata($userdata);
-                
-                // set login details
+                //add default settings
                 $array = array(
-                    'logins' => 1,
-                    'loginIP' => $_SERVER['REMOTE_ADDR'],
-                    'lastLogin' => date('Y-m-d H:i:s')
+                    array('userId'=>$userId,'type'=>'Auto Renew Subscription','value'=>0),
+                    array('userId'=>$userId,'type'=>'Web Notification','value'=>1),
+                    array('userId'=>$userId,'type'=>'Push Notification','value'=>1),
+                    array('userId'=>$userId,'type'=>'Email Notification','value'=>1),
+                    array('userId'=>$userId,'type'=>'Case Listing Reminder','value'=>1),
+                    array('userId'=>$userId,'type'=>'Case Update Reminder','value'=>1),
+                    array('userId'=>$userId,'type'=>'Daily Task Reminder','value'=>1),
+                    array('userId'=>$userId,'type'=>'Sync with Google Calendar','value'=>0),
                 );
-                
-                $this->db->set($array);
-                $this->db->where('userId', $result->userId);
-                $this->db->update($this->userTbl);
-                
-                // load dashboard
-                redirect(base_url() . '/workspace', 'refresh');
+                $this->db->insert_batch('user_settings', $array);
+                //load email class
+                $this->load->library('email');
+                $emailArray = array('to'=>$_POST['email'],'subject'=>'Account created! Please verify your email');
+                $data=array('first_name'=>$_POST['first_name'],'verify_link'=>base_url().'verify-account?t='.base64_encode(base64_encode(base64_encode($token))));
+                $this->email->sendEmail($emailArray,'register',$data);
+                redirect(base_url() . 'verify-account', 'refresh');
             
             } else {
                 // incorrect login details
@@ -365,9 +386,9 @@ class User extends CI_Controller
             $data[$key]=md5($this->input->post('value'));
             $data['raw_pass']=$this->input->post('value');
         }
-        $data['updateDate']=date('Y-m-d H:i:s');
+        $data['updated_on']=date('Y-m-d H:i:s');
         $this->db->where('userId', $id);
-        $this->db->update('user', $data);
+        $this->db->update($this->userTbl, $data);
         // echo $this->db->last_query();
         if ($this->db->affected_rows() < 1) {
             return true;
@@ -401,40 +422,22 @@ class User extends CI_Controller
             $this->load->database();
             $this->db->where('email', $_POST['email']);
             $query = $this->db->get($this->userTbl);
-            if ($query->result()) {
+            $result = $query->row();
+            if ($result) {
                 // send email
-                // get setting
-                $this->load->library('Settings');
-                $from_email = $this->settings->fetchSetting('SEND_FROM_EMAIL');
-                $business_name = $this->settings->fetchSetting('BUSINESS_NAME');
-                
                 $this->load->library('email');
+                $this->load->helper('string');
+                $token = random_string('alnum',15);
+                $link = base_url() . 'reset-password?token=' . $token;
                 
-                $this->email->from($from_email, $business_name);
-                $this->email->to($_POST['email']);
-                $this->email->subject('Passwod reset link');
-                
-                $token = md5(uniqid(rand(), true));
-                $link = base_url() . '/reset-password?token=' . $token;
-                // die();
-                
-                $msg = 'Hello! ';
-                $msg .= '<p>Your we have recieved request to reset password for your account. Please click the link to and enter your new password:</p>';
-                $msg .= '<a href="' . $link . '">' . $link . '</a>';
-                $msg .= '
-                    <p>
-                    Best Reagards,<br>
-                    ' . $business_name . '
-                    </p>
-                    ';
-                $this->email->message($msg);
-                $this->email->set_mailtype("html");
-                $this->email->send();
+                $emailArray = array('to'=>$result->email,'subject'=>'Account Recovery');
+                $data=array('first_name'=>$result->first_name,'email'=>$result->email,'link'=>$link);
+                $this->email->sendEmail($emailArray,'account-recovery',$data);
                 
                 //set token in db
                 $array = array(
                     'token' => $token,
-                    'token_valid_date' => date('Y-m-d H:i:s',strtotime('+15 days')),
+                    'token_valid_date' => date('Y-m-d H:i:s',strtotime('+1 days')),
                     'lastLogin' => date('Y-m-d H:i:s')
                 );
                 $this->db->set($array);
@@ -493,12 +496,23 @@ class User extends CI_Controller
                 
                 $this->form_validation->set_rules($config);
                 if ($this->form_validation->run() !== FALSE) {
+                    $this->db->where('token', $token);
+                    $query = $this->db->get($this->userTbl);
+                    $result = $query->row();
                     //update record 
                     $data['password']=password_hash($this->input->post('password'), PASSWORD_DEFAULT, ['cost' => 15]);
                     $data['updated_on']=date('Y-m-d H:i:s');
+                    $data['token']='';
+                    $data['token_valid_date']='';
                     $this->db->where('token', $token);
                     $this->db->update($this->userTbl,$data);
                     //echo $this->db->last_query();
+                    
+                    $this->load->library('email');
+                    
+                    $emailArray = array('to'=>$result->email,'subject'=>'Account Password Changed');
+                    $data=array('first_name'=>$result->first_name);
+                    $this->email->sendEmail($emailArray,'account-recovered',$data);
                    
                     echo "<span class='text-primary'>Password changed! you can sign in using new password</span>";
                     
@@ -519,6 +533,115 @@ class User extends CI_Controller
         // reset password
     }
     
+    public function update_password()
+    {
+        // check for valid token
+        $this->load->helper('url', 'form');
+        if ($this->input->post('current_password')) {
+                    $this->load->library('form_validation');
+                    $config = array(
+                        array(
+                            'field' => 'current_password',
+                            'label' => 'Password',
+                            'rules' => 'required',
+                            'errors' => array(
+                                'required' => 'You must provide a %s.'
+                            )
+                        ),
+                        array(
+                            'field' => 'new_password',
+                            'label' => 'New Password',
+                            'rules' => 'required',
+                            'errors' => array(
+                                'required' => 'You must provide a %s.'
+                            )
+                        ),
+                        array(
+                            'field' => 'confirm_password',
+                            'label' => 'Confirm Password',
+                            'rules' => 'required|matches[new_password]',
+                            'errors' => array(
+                                'required' => 'You must provide a %s.'
+                            )
+                        )
+                    );
+    
+                    $this->form_validation->set_rules($config);
+                    if ($this->form_validation->run() !== FALSE) {
+                        $this->load->database();
+                        $this->db->where('userId', $this->input->post('userId'));
+                        $query = $this->db->get($this->userTbl);
+                        $result = $query->row();
+                        
+                        if(password_verify($this->input->post('current_password'),$result->password)){
+                            //update record
+                            $data['password']=password_hash($this->input->post('new_password'), PASSWORD_DEFAULT, ['cost' => 15]);
+                            $data['updated_on']=date('Y-m-d H:i:s');
+                            $this->db->where('userId', $this->input->post('userId'));
+                            $this->db->update($this->userTbl,$data);
+                            //echo $this->db->last_query();
+                            
+                            $this->load->library('email');
+                            
+                            $emailArray = array('to'=>$result->email,'subject'=>'Account Password Changed');
+                            $data=array('first_name'=>$result->first_name);
+                            $this->email->sendEmail($emailArray,'account-recovered',$data);
+                             
+                            echo "<span class='text-primary'>Password changed!</span>";
+                        } else {
+                            echo "<span class='text-danger'>Incorrect current password. Please use current password to update your account password</span>";
+                        }
+                        
+    
+                    } else {
+                        echo "<span class='text-danger'>".validation_errors()."</span>";
+                    }
+        } else {
+            echo "<span class='text-danger'>Password Not Provided</span>";
+        }
+    
+        // reset password
+    }
+    public function verify_account(){
+        $this->load->helper('url');
+        if($_GET['t']){
+            $token=base64_decode(base64_decode(base64_decode($_GET['t'])));
+            $this->load->database();
+            $this->db->set(array('verified'=>1));
+            $this->db->where('token', $token);
+            $this->db->update($this->userTbl);
+            if($this->db->affected_rows()>0){
+                $verificationData['image']="user-welcome.png";
+                $verificationData['msg']='Your account is now verified. You can login and enjoy services for 15 days as demo period. You can select your plan any time within 15 days. To login and start demo period, click <a href="'.base_url().'/login">here<a/>';
+                $verificationData['heading']="Start demo now";
+                $verificationData['status']="Account Verified!!!";
+                //send email for successful verification email
+                $this->load->library('email');
+                $this->db->select('first_name,email');
+                $this->db->from($this->userTbl);
+                $this->db->where('token', $token);
+                $q = $this->db->get();
+                $r=$q->row();
+                $emailArray = array('to'=>$r->email,'subject'=>'Welcome to Adhivakta E-diary! Start using services');
+                $data=array('first_name'=>$r->first_name);
+                $this->email->sendEmail($emailArray,'verified',$data);
+            } else {
+                $verificationData['image']="unsubscribe.png";
+                $verificationData['msg']="Your account can't be verifed. Token is invalid. Please check email and use exact link as sent in email.";
+                $verificationData['heading']="Verification failed";
+                $verificationData['status']="Error!!!";
+            }
+            $this->load->view('common/header', $this->data);
+            $this->load->view('verified-account', $verificationData);
+            $this->load->view('common/footer');
+        } else {
+        
+        $this->load->view('common/header', $this->data);
+        $this->load->view('verify-account', $this->data);
+        $this->load->view('common/footer');
+        }
+    }
+    
     
     public function all_user_staff($userId){
         //laod database 
@@ -531,7 +654,41 @@ class User extends CI_Controller
         
         $result = $query->result();
         echo json_encode($result);
+    }
+    
+    
+    public function account_details($id){
+        $this->load->database();
+        $query = $this->db->select('*')->where( array(
+            'userId' => $id,
+        ))->get($this->userTbl);
         
+        $result = $query->result();
+        echo json_encode($result);
+    }
+    
+    public function account_settings($id){
+        $this->load->database();
+        $query = $this->db->select('*')->where( array(
+            'userId' => $id,
+        ))->get('user_settings');
+    
+        $result = $query->result();
+        echo json_encode($result);
+    }
+    
+    public function update_settings(){
+    $this->load->database();
+        $id = $this->input->post('userId');
+        $key = $this->input->post('type');
+        $data[$key] = $this->input->post('value');
         
+        $this->db->where('userId', $id);
+        $this->db->update('user_settings', $data);
+        if ($this->db->affected_rows() < 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

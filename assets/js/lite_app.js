@@ -50,6 +50,15 @@ function convertToListText(text,list='ul'){
 	return htmlList;
 }
 
+function ValidURL(str) {
+	var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+	  if(!regex .test(str)) {
+	    return false;
+	  } else {
+	    return true;
+	  }
+	}
+
 function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
         sURLVariables = sPageURL.split('&'),
@@ -90,9 +99,33 @@ function formatDateFull(date){
 	return new_date;
 }
 
+function calPeriodFinished(start_date,end_date){
+	
+	if(checkInFuture(end_date)){
+		var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+		var firstDate = new Date(start_date);
+		var secondDate = new Date(end_date);
+		var now = new Date();
+
+		var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+		
+		var completed = Math.round(Math.abs((firstDate.getTime()-now.getTime())/(oneDay)));
+		
+		var percent = (completed/diffDays)*100;
+		return percent;
+	} else {
+		return 100;
+	}
+}
+
 function prettyDate(date){
 	var new_date=$.format.prettyDate(new Date(date));
 	//$.datepicker.formatDate('M dd', new Date(date));
+	return new_date;
+}
+
+function prettyTaskDate(date){
+	var new_date=$.format.prettyDate(new Date(date+' 23:59:59'));
 	return new_date;
 }
 function clearAllTimeouts(){

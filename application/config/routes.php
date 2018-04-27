@@ -55,8 +55,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['login'] = 'user/login';
 $route['logout'] = 'user/logout';
 $route['register'] = 'user/register';
+$route['verify-account'] = 'user/verify_account';
 $route['recover-password'] = 'user/forgot_password';
 $route['reset-password'] = 'user/reset_password';
+$route['account'] = 'user/page/account';
+$route['settings'] = 'user/page/settings';
+$route['user/account-details/(:any)'] = 'user/account_details/$1';
+$route['user/account-settings/(:any)'] = 'user/account_settings/$1';
+$route['user/payment-details/(:any)'] = 'payments/user_payments/$1';
+$route['user/update-settings'] = 'user/update_settings/';
+$route['update-profile'] = 'user/updateProfile';
+$route['user/change-password'] = 'user/update_password';
+$route['plans'] = 'user/page/plans';
+$route['subscription-plans'] = 'user/plans';
+$route['payment/add'] = 'payments/add_payment';
+
+
+
 
 $route['workspace'] = 'user/index';
 $route['causelist'] = 'user/page/causelist';
@@ -66,6 +81,7 @@ $route['tasks'] = 'user/page/tasks';
 $route['invoice'] = 'user/page/invoice';
 $route['archived'] = 'user/page/archived';
 $route['clients'] = 'user/page/clients';
+
 
 $route['all-user-staff/(:any)'] = 'user/all_user_staff/$1';
 
@@ -78,6 +94,11 @@ $route['load/workspace/case/(:any)'] = 'page/load_case/$1';
 $route['data/(:any)'] = 'page/load_data/$1';
 $route['nav'] = 'page/nav';
 $route['sidebar'] = 'page/sidebar';
+$route['upload/document'] = 'upload/upload_file/case_document';
+
+//for emails
+$route['queue_email/send_queue'] = 'queue_email/send_queue';
+$route['queue_email/retry_queue'] = 'queue_email/retry_queue'; 
 
 $route['default_controller'] = 'user';
 $route['404_override'] = '';

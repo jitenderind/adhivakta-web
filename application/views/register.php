@@ -5,6 +5,7 @@
 $user_type="advocate";
 $plan_type="demo";
 $staff=($_GET['s'])?base64_decode(base64_decode(base64_decode($_GET['s']))):0;
+$parentUserId=($_GET['p'])?base64_decode(base64_decode(base64_decode($_GET['p']))):0;
 ?>
 <div class="auth_reg animated slideInRight">
     <div class="container">
@@ -62,6 +63,7 @@ $staff=($_GET['s'])?base64_decode(base64_decode(base64_decode($_GET['s']))):0;
                                     <input type="hidden" name="plan_type" value="<?php echo $plan_type?>" />
                                     <input type="hidden" name="registration_type" value="web" />
                                     <input type="hidden" name="staff" value="<?php echo $staff?>" />
+                                    <input type="hidden" name="parentUserId" value="<?php echo $parentUserId?>" />
                                     <button type="submit" class="btn btn-purple waves-effect">Get Started</button>
                                 </div>
                                 

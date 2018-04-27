@@ -1,6 +1,10 @@
             <div class="container-fluid">
                 <div class="navbar-wrapper">
-                    <div class="navbar-minimize">
+                   <div class="navbar-minimize">
+                        <button id="minimizeSidebar" data-color="purple" class="btn btn-fill btn-round btn-icon d-none d-lg-block">
+                            <i class="fa fa-ellipsis-v visible-on-sidebar-regular"></i>
+                            <i class="fa fa-navicon visible-on-sidebar-mini"></i>
+                        </button>
                     </div>
                     <a class="navbar-brand" id="page_header_title" href="javascript:void(0)">
                         <i id="page-icon" class="material-icons"></i>
@@ -97,13 +101,13 @@
                                 <i class="material-icons">account_box</i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="/messages">
+                               <!--  <a class="dropdown-item loader-link" href="/messages">
                                     <i class="material-icons align-middle">mail_outline</i> Messages
-                                </a>
-                                <a class="dropdown-item" href="/profile">
+                                </a>  -->
+                                <a class="dropdown-item loader-link" href="/account">
                                     <i class="material-icons align-middle">account_circle</i> Account
                                 </a>
-                                <a class="dropdown-item" href="/settings">
+                                <a class="dropdown-item loader-link" href="/settings">
                                     <i class="material-icons align-middle">settings</i> Settings
                                 </a>
                                 <div class="divider"></div>

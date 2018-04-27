@@ -47,7 +47,7 @@ var userCaseId = '<?php echo $_GET['userCaseId']?>';
 <div class="user_box">
     <div class="user_email">
 <span class="">
-       <a href="#" data-type="textarea" class="editable" data-pk="${userCaseDataId}" data-id="${userCaseDataId}" name="data_value" data-type="text" data-name="data_value" data-title="Enter Note">${data_value}</a>
+       <a href="#" data-type="text" class="editable" data-pk="${userCaseDataId}" data-id="${userCaseDataId}" name="data_value" data-type="text" data-name="data_value" data-title="Enter Note">${data_value}</a>
     </span>
 </span>
     </div>
@@ -77,10 +77,11 @@ function loadNotes(userCaseId){
     	//console.log(response);
         var html=$('#noteTemplate').tmpl(response);
         $('#case-notes').html(html);
-
-        $('.editable').editable({
-        	url: '<?php echo API_URL?>user-case-data/'+$(this).data('pk'),
-        	inputclass: 'editableTextarea',
+        $('.editable').each(function() {
+        	var current_element = $(this);
+        $(this).editable({
+        	url: '<?php echo API_URL?>user-case-data/'+current_element.data("id"),
+        	inputclass: 'fullWidth',
         	ajaxOptions:{
                 type: "PUT",
                 dataType: "json",
@@ -93,6 +94,7 @@ function loadNotes(userCaseId){
             	},
             mode:'inline',
         	emptytext: "NA",
+        });
         });
         
         $(".delete-btn").on("click", function (e) {
@@ -142,8 +144,8 @@ jQuery(function(){
 	    $('.bs-callout-info').toggleClass('hidden', !ok);
 	    $('.bs-callout-warning').toggleClass('hidden', ok);
 	  }).on('form:submit', function(e){
- 		var taskForm = document.getElementById('addNoteFrm   ');
-		  var data = new FormData(taskForm);
+ 		var noteForm = document.getElementById('addNoteFrm');
+		  var data = new FormData(noteForm);
 		  $.ajax({
 	            "url": '<?php echo API_URL?>user-case-data/add',
 	            "type": "POST",
@@ -159,7 +161,7 @@ jQuery(function(){
    	          "mimeType": "multipart/form-data",
 	        }).done(function (response) {
 	            if(response){
-	            	taskForm.reset();
+	            	noteForm.reset();
 	            	$("#add_note").collapse("toggle");
 	            	loadNotes(userCaseId);
 	            }

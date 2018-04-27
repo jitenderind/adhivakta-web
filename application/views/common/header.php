@@ -20,6 +20,7 @@
     <link href="<?php echo base_url(); ?>assets/css/style.css" rel="stylesheet"/>
     <!-- BEGIN PAGE LEVEL STYLE -->
     <link href="<?php echo base_url(); ?>assets/plugins/jquery-jvectormap/jquery-jvectormap.css" rel="stylesheet"/>
+    <link href="<?php echo base_url(); ?>assets/plugins/font-awesome/css/fontawesome-all.min.css" rel="stylesheet"/>
     <link href="<?php echo base_url(); ?>assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css" rel="stylesheet"/>
     <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url(); ?>assets/plugins/bootstrap/js/bootstrap.bundle.js" type="text/javascript"></script>

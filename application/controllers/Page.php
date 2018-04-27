@@ -61,6 +61,21 @@ class Page extends CI_Controller
             'icon' => 'face',
             'tab' => 'clients'
         ),
+        'account' => array(
+            'name' => 'Account & Plan Details',
+            'icon' => 'account_box',
+            'tab' => ''
+        ),
+        'settings' => array(
+            'name' => 'Settings & Preferences',
+            'icon' => 'settings',
+            'tab' => ''
+        ),
+        'plans' => array(
+            'name' => 'Subscription Plans',
+            'icon' => 'subscriptions',
+            'tab' => ''
+        ),
     ];
 
     public function nav()
@@ -81,7 +96,13 @@ class Page extends CI_Controller
         $data['pageName'] = $this->pages[$page]['name'];
         $data['pageIcon'] = $this->pages[$page]['icon'];
         $data['activeTab'] = $this->pages[$page]['name'];
-        $data['content'] = $this->load->view('ajax/' . $page, '', TRUE);
+        $pageData=array();
+        if($page=="plans"){
+            $this->load->database();
+            $query = $this->db->get('plans');
+            $pageData['result'] = $query->result();
+        } 
+        $data['content'] = $this->load->view('ajax/' . $page, $pageData, TRUE);
         echo json_encode($data);
     }
 

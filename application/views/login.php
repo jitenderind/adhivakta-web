@@ -64,6 +64,7 @@ jQuery(function(){
 					window.location.replace("/workspace");
 				} else if(response==2){
 					$("#error").html("Redirecting to subscription page");
+					window.location.replace("/subscription-plans");
 				} else if(response==3){
 				    
 				} else {

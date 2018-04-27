@@ -86,4 +86,5 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 defined('DEFAULT_TITLE')       OR define('DEFAULT_TITLE', "Adhivakta Plus"); // Default Title of application
 defined('APPLICATION_TITLE')   OR define('APPLICATION_TITLE', "Adhivakta Plus"); // Default Title of application
 defined('COPYRIGHT_TEXT')      OR define('COPYRIGHT_TEXT', "<a href='#'>Adhivakta Plus</a> All rights reserved."); // Default Title of application
-defined('API_URL')             OR define('API_URL', 'http://api.localhost/v1/'); // no errors
+defined('API_URL')             OR define('API_URL', 'http://api.localhost/v1/'); // no errors 
+defined('PAYMENT_GATEWAY_KEY') OR define('PAYMENT_GATEWAY_KEY', 'rzp_test_QiM6iJ0gasijKt'); // no errors

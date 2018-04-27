@@ -33,11 +33,11 @@ var pageUser = '<?php echo $_GET['mine']?>';
 <td>
 {{if is_completed==1}}
 <span class="f-s-14 text-primary strike">
-        ${prettyDate(due_date)}
+        ${prettyTaskDate(due_date)}
     </span>
 {{else}}
 <span class="f-s-14 text-primary">
-        ${prettyDate(due_date)}
+        ${prettyTaskDate(due_date)}
     </span>
 {{/if}}
 </td>
