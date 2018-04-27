@@ -68,7 +68,7 @@ class Ap_email extends CI_Email
         return $this->CI->db->insert($this->table_email_queue, $dbdata);
     }
     
-    function sendEmail($emailArray, $type, $data = "")
+    function sendEmail($emailArray, $type, $data = "",$attachment="")
     {
         $this->from('info@adhivaktaplus.com', 'Adhivakta Plus');
         $this->to($emailArray['to']);
@@ -80,7 +80,9 @@ class Ap_email extends CI_Email
         $msg=$header.$body.$footer;
         //echo $body="testing message";
         $this->message($msg);
-    
+        if($attachment){
+            $this->attach($attachment);
+        }
         $this->CI->email->send();
     
     }

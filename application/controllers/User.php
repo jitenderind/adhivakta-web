@@ -336,16 +336,16 @@ class User extends CI_Controller
             if ($userId) {
                 //add default settings
                 $array = array(
-                    array('userId'=>$userId,'type'=>'Auto Renew Subscription','value'=>0),
-                    array('userId'=>$userId,'type'=>'Web Notification','value'=>1),
-                    array('userId'=>$userId,'type'=>'Push Notification','value'=>1),
-                    array('userId'=>$userId,'type'=>'Email Notification','value'=>1),
-                    array('userId'=>$userId,'type'=>'Case Listing Reminder','value'=>1),
-                    array('userId'=>$userId,'type'=>'Case Update Reminder','value'=>1),
-                    array('userId'=>$userId,'type'=>'Daily Task Reminder','value'=>1),
-                    array('userId'=>$userId,'type'=>'Sync with Google Calendar','value'=>0),
+                    'Auto_Renew_Subscription'=>0,
+                    'Web_Notification'=>1,
+                    'Push_Notification'=>1,
+                    'Email_Notification'=>1,
+                    'Case_Listing_Reminder'=>1,
+                    'Case_Update_Reminder'=>1,
+                    'Daily_Task_Reminder'=>1,
+                    'Google_Calendar_Sync'=>0,
                 );
-                $this->db->insert_batch('user_settings', $array);
+                $this->db->insert('user_settings', $array);
                 //load email class
                 $this->load->library('email');
                 $emailArray = array('to'=>$_POST['email'],'subject'=>'Account created! Please verify your email');

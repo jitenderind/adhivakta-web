@@ -79,6 +79,7 @@ $route['display-board'] = 'user/page/display-board';
 $route['appeal-alert'] = 'user/page/appeal-alert';
 $route['tasks'] = 'user/page/tasks';
 $route['invoice'] = 'user/page/invoice';
+$route['invoice/(:any)'] = 'payments/show_invoice/$1';
 $route['archived'] = 'user/page/archived';
 $route['clients'] = 'user/page/clients';
 
@@ -99,6 +100,10 @@ $route['upload/document'] = 'upload/upload_file/case_document';
 //for emails
 $route['queue_email/send_queue'] = 'queue_email/send_queue';
 $route['queue_email/retry_queue'] = 'queue_email/retry_queue'; 
+
+
+//for cron
+$route['invoice/add/(:any)'] = 'payments/add_invoice/$1';
 
 $route['default_controller'] = 'user';
 $route['404_override'] = '';

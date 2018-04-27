@@ -94,13 +94,13 @@ ${invoiceId}
 ${formatDateFull(invoiceDate)}
 </td>
 <td>
-${amount}
+<span class="text-muted">&#8377;</span> ${amount}
 </td>
 <td>
-${gst}
+<span class="text-muted">&#8377;</span> ${gst}
 </td>
 <td>
-${payableAmount}
+<span class="text-muted">&#8377;</span> ${payableAmount}
 </td>
 <td>
 ${formatDateFull(paymentDate)}
@@ -110,15 +110,15 @@ ${status}
 </td>
 <td>
 {{if status=="Pending"}}
-<button type="button" class="btn btn-sm btn-outline-info loader-link">Pay Now</button>
-<button type="button" class="btn btn-sm btn-outline-primary loader-link">Download</button>
+<button type="button" class="payment-button btn btn-sm btn-outline-primary loader-link" data-plan="${paymentDetails}" data-rawamount="${amount}" data-amount="${payableAmount}" data-payamount="${payableAmount*100}">Pay Now</button>
+<a href="/invoice/${invoiceId}" target="_blank" class="btn btn-sm btn-outline-info loader-link">View</a>
 {{else}}
-<button type="button" class="btn btn-sm btn-outline-primary loader-link">Download</button>
+<a href="/invoice/${invoiceId}" target="_blank" class="btn btn-sm btn-outline-info loader-link">View</a>
 {{/if}}
 </td>
 </tr>
 </script>
-
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script type="text/javascript">
 //for page load
         function loadDetails(){
@@ -176,7 +176,43 @@ function loadPaymentDetails(){
     	//console.log(response);
         var html=$('#paymentTemplate').tmpl(response);
         $('#payment-content').html(html);
+        $('.payment-button').click(function(e){
+    		var btn = $(this);
+    		var options = {
+    			    "key": "<?php echo PAYMENT_GATEWAY_KEY?>",
+    			    "amount":$(this).data('payamount'),
+    			    "name": "Adhivakta Plus",
+    			    "description": $(this).data('plan'),
+    			    "image": "/assets/img/logo.png",
+    			    "handler": function (response){
+    			        //alert(response.razorpay_payment_id);
+    			        //console.log(response);
+    			        $.ajax({
+    			        	 "url":"/payment/add",
+    			        	 "data":{'userId':'<?php echo $_SESSION['user']['userId']?>','plan':btn.data('plan'),'amount':btn.data('rawamount'),'txn_id':response.razorpay_payment_id},
+    			        	 "method":"POST",
+    			        	 "success":function(data){
+    			        		// window.location.replace("/workspace");
+    			        		 loadPaymentDetails();
+    			        	 }
+    				        });
+    			    },
+    			    "prefill": {
+    			        "name": "<?php echo $_SESSION['user']['first_name']?>",
+    			        "email": "<?php echo $_SESSION['user']['email']?>",
+    			        "contact":"<?php echo $_SESSION['user']['mobile']?>",
+    			    },
+    			    "theme": {
+    			        "color": "#9368E9"
+    			    }
+    			};
+    			var rzp1 = new Razorpay(options);
+    			rzp1.open();
+    		    e.preventDefault();
+    		
+    	});
     });
+
 }
        loadDetails();
        loadPaymentDetails();

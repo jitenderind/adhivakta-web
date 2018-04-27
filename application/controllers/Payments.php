@@ -21,6 +21,7 @@ class Payments extends CI_Controller
             $data['payableAmount']=(float)($data['amount']+$data['gst']);
             $data['txn_id']=$this->input->post('txn_id');
             $data['status']='Paid';
+            $data['paymentDetails']=$this->input->post('plan');
             $data['paymentDate']=date("Y-m-d H:i:s");
             $this->db->set($data);
             $this->db->where(array('paymentId'=>$result[0]->paymentId));
@@ -35,6 +36,7 @@ class Payments extends CI_Controller
             $data['gst']=(float)(($data['amount']*18)/100);
             $data['payableAmount']=(float)($data['amount']+$data['gst']);
             $data['txn_id']=$this->input->post('txn_id');
+            $data['paymentDetails']=$this->input->post('plan');
             $data['status']='Paid';
             $data['invoiceDate']=$data['paymentDate']=date("Y-m-d H:i:s");
             $this->db->insert($this->tbl, $data);
@@ -47,6 +49,15 @@ class Payments extends CI_Controller
         $session=$this->session->userdata('user');
         unset($session['non-payment']);
         $this->session->set_userdata($session);
+        
+        //generate invoice
+        $this->load->library('pdfgenerator');
+        
+        //send payment confirmation email 
+        $this->load->library('email');
+        $emailArray = array('to'=>$_POST['email'],'subject'=>'Account created! Please verify your email');
+        $data=array('first_name'=>$_POST['first_name'],'verify_link'=>base_url().'verify-account?t='.base64_encode(base64_encode(base64_encode($token))));
+        $this->email->sendEmail($emailArray,'payment_confirmation',$data);
       return;
     }
     
@@ -57,6 +68,31 @@ class Payments extends CI_Controller
         ))->order_by('invoiceDate','desc')->get($this->tbl);
         $result = $query->result();
         echo json_encode($result);
+    }
+    
+    public function show_invoice($invoiceId){
+        $this->load->database();
+        $query = $this->db->select('payments.*,users.first_name,users.last_name,users.plan_type')->join('users', 'users.userId = payments.userId')->where( array(
+            'payments.invoiceId' => $invoiceId,
+        ))->get($this->tbl);
+        $result = $query->result();
+        $this->load->library('pdfgenerator');
+        $data['data']=$result[0];
+       $body = $this->load->view('invoice_template/invoice',$data,TRUE);
+       echo $this->pdfgenerator->generate($body);
+        
+    }
+    
+    public function add_invoice($invoiceId){
+        $this->load->database();
+        $query = $this->db->select('payments.*,users.first_name,users.last_name,users.plan_type')->join('users', 'users.userId = payments.userId')->where( array(
+            'payments.invoiceId' => $invoiceId,
+        ))->get($this->tbl);
+        $result = $query->result();
+        $header = $this->load->view('email_template/email_header',$data);
+        $body = $this->load->view('email_template/payment_confirmation',$result);
+        $footer = $this->load->view('email_template/email_footer',$data);
+    
     }
 }
 

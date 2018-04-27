@@ -16,7 +16,7 @@
 								style="padding-bottom: 40px;"><a href="#"
 								style="text-decoration: none" target="_blank"><img alt=""
 									border="0" mc:edit="heroImg"
-									src="http://weekly.grapestheme.com/notify/img/hero/account-password-reset.png"
+									src="https://www.adhivaktaplus.com/assets/img/account-password-reset.png"
 									style="width: 100%; max-width: 600px; height: auto; display: block"
 									width="600"></a></td>
 						</tr>
